@@ -30,11 +30,16 @@ func numberOfOrdersPerDay(day int) float64 {
 		baseValue = math.Sqrt(float64(day-166)) + 173
 	}
 	ts := startTimestamp.Add(time.Duration(24*day) * time.Hour)
-	return baseValue * coefsByWeekday[ts.Weekday()]
+	unexpectedCoeff := 1.0
+	if day*241%40 == 26 {
+		unexpectedCoeff = 0.2
+	}
+	return baseValue * coefsByWeekday[ts.Weekday()] * unexpectedCoeff
 }
 
 func main() {
 	for day := 0; day <= 300; day++ {
-		fmt.Println(day, numberOfOrdersPerDay(day))
+		ordersNumber := int64(numberOfOrdersPerDay(day))
+		fmt.Println(day, ordersNumber)
 	}
 }
