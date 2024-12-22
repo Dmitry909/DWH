@@ -62,12 +62,12 @@ func CancelRate(day int) (float64, float64) {
 }
 
 func GetRandomStatus(day int) string {
-	notFinishedRate, cancelRate := CancelRate(day)
+	notFinishedRate, _ := CancelRate(day)
 	status := "completed"
 	rnd := rand.Float64()
 	if rnd < notFinishedRate {
-		status = "assigned"
-	} else if rnd < cancelRate {
+		// 	status = "acquired"
+		// } else if rnd < cancelRate {
 		status = "cancelled"
 	}
 	return status
