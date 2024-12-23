@@ -1,17 +1,17 @@
 CREATE TABLE executors (
-    executor_id VARCHAR(255) PRIMARY KEY
+    executor_id BIGINT PRIMARY KEY
 );
 
 CREATE TABLE zones (
-    zone_id VARCHAR(255) PRIMARY KEY
+    zone_id BIGINT PRIMARY KEY
     zone_name VARCHAR(255)
 );
 
 CREATE TYPE order_execution_status AS ENUM ('assigned', 'acquired', 'cancelled', 'completed');
 
 CREATE TABLE orders (
-    order_id VARCHAR(255) NOT NULL,
-    executor_id VARCHAR(255) NOT NULL,
+    order_id BIGINT NOT NULL PRIMARY KEY,
+    executor_id BIGINT NOT NULL,
     execution_status order_execution_status NOT NULL,
     coin_coefficient DOUBLE PRECISION NOT NULL,
     coin_bonus_amount DOUBLE PRECISION NOT NULL,
