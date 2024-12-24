@@ -15,7 +15,6 @@ CREATE TABLE assigned_orders (
     first_acquire_time TIMESTAMP WITH TIME ZONE,
     executor_rating DOUBLE PRECISION NOT NULL,
     completed_time TIMESTAMP WITH TIME ZONE NOT NULL,
-    cancel_time TIMESTAMP WITH TIME ZONE NOT NULL,
 
     PRIMARY KEY (assigned_order_id),
     UNIQUE (order_id)
