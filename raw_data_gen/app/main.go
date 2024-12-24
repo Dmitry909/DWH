@@ -91,7 +91,7 @@ func main() {
 					CoinBonusAmount: bonusAmount,
 					FinalCoinAmount: baseAmount + bonusAmount,
 					ZoneId:          zoneId,
-					AssignTime:      "'" + assignTime.String() + "'",
+					AssignTime:      "'" + assignTime.Format(time.RFC3339) + "'",
 				})
 				if err != nil {
 					panic(err)
