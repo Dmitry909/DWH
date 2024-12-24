@@ -49,6 +49,11 @@ func NumberOfOrdersPerDay(day int) float64 {
 	return baseValue * coefsByWeekday[ts.Weekday()] * unexpectedCoeff
 }
 
+func GenerateAcquireWait(zoneId string) time.Duration {
+	zoneNum, _ := strconv.Atoi(zoneId)
+	return time.Duration(rand.Intn(300-zoneNum)) * time.Second
+}
+
 func GenerateExecutors(day, ordersNumber int) []Executor {
 	rand.Seed(int64(day))
 	randomCoeff := 0.9 + rand.Float64()*0.2

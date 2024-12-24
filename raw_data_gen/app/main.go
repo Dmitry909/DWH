@@ -60,8 +60,8 @@ func main() {
 			orderId := strconv.Itoa(assignOrderId)
 			status := generators.GetRandomStatus(day)
 			assignTime := currentTimestamp.Add(time.Duration(order) * timeStep)
-			acquireTime := assignTime.Add(time.Duration(rand.Float64()*60) * time.Second)
 			zoneId := generators.GetRandomZoneId(day)
+			acquireTime := assignTime.Add(generators.GenerateAcquireWait(zoneId))
 			baseAmount, bonusAmount := generators.GetRandomAmount(day)
 			completedTime := generators.GetRandomCompletedTime(acquireTime, baseAmount+bonusAmount)
 
@@ -83,7 +83,7 @@ func main() {
 
 			if *needCSV {
 				err := enc.WriteStruct(model.DWHOrder{
-					AcquireSeconds:  int32(completedTime.Sub(acquireTime).Seconds()),
+					AcquireSeconds:  int32(acquireTime.Second()),
 					OrderId:         orderId,
 					ExecutorId:      executorsThisDay[executorNow].Id,
 					ExecutorRating:  executorsThisDay[executorNow].Rating,
