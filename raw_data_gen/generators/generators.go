@@ -51,7 +51,12 @@ func NumberOfOrdersPerDay(day int) float64 {
 
 func GenerateAcquireWait(zoneId string) time.Duration {
 	zoneNum, _ := strconv.Atoi(zoneId)
-	return time.Duration(rand.Intn(300-zoneNum)) * time.Second
+	if zoneNum < 10 {
+		zoneNum *= -10
+	} else if zoneNum > 100 {
+		zoneNum *= 2
+	}
+	return time.Duration(rand.Intn(350-zoneNum)) * time.Second
 }
 
 func GenerateExecutors(day, ordersNumber int) []Executor {
