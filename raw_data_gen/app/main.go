@@ -52,7 +52,7 @@ func main() {
 		fmt.Println(day, ordersNumber)
 
 		executorsThisDay := generators.GenerateExecutors(day, ordersNumber)
-		executorNow := 0
+		executorNow := rand.Intn(len(executorsThisDay))
 		timeStep := time.Duration(24*60*60/ordersNumber) * time.Second
 		currentTimestamp := generators.StartTimestamp.Add(time.Duration(24*day) * time.Hour)
 

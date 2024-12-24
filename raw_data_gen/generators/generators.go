@@ -31,9 +31,9 @@ func NumberOfOrdersPerDay(day int) float64 {
 
 	var baseValue float64 = 0
 	baseDay := day % 300
-	if baseDay%300 <= 30 {
+	if baseDay <= 30 {
 		baseValue = float64(3*baseDay) + float64(rand.Int()%10)
-	} else if day%300 <= 167 {
+	} else if baseDay <= 167 {
 		baseValue = (math.Sqrt(float64(-4*baseDay*baseDay+1040*baseDay-27199)) + 160) / 2
 	} else {
 		baseValue = math.Sqrt(float64(baseDay-166)) + 173
