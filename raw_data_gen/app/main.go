@@ -30,17 +30,19 @@ func addOrder(row model.AssignedOrder) {
 func main() {
 	pflag.Parse()
 
-	err := database.EstablishConnection()
-	if err != nil {
-		log.Printf("Error connecting to database: %s; retrying...\n", err.Error())
-		return
+	if *needPushData {
+		err := database.EstablishConnection()
+		if err != nil {
+			log.Printf("Error connecting to database: %s; retrying...\n", err.Error())
+			return
+		}
 	}
 
 	assignOrderId := 0
 
 	buff := &bytes.Buffer{}
 	enc := struct2csv.NewWriter(buff)
-	err = enc.WriteColNames(model.DWHOrder{})
+	err := enc.WriteColNames(model.DWHOrder{})
 	if err != nil {
 		panic(err)
 	}
