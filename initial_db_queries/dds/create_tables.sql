@@ -26,6 +26,7 @@ CREATE TABLE orders (
     first_acquire_time TIMESTAMP WITH TIME ZONE,
     cancel_time TIMESTAMP WITH TIME ZONE,
     executor_rating FLOAT NOT NULL,
+    completed_time TIMESTAMP WITH TIME ZONE,
 
     UNIQUE (order_id)
 );
