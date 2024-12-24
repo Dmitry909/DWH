@@ -1,14 +1,13 @@
 package database
 
 import (
-	"os"
 	"raw_data_gen/model"
 
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	_ "github.com/lib/pq"
 )
 
 const (
@@ -45,24 +44,29 @@ func AddAssignedOrder(assignedOrder *model.AssignedOrder) (bool, error) {
 				ZoneName,
 				HasExecutorFallbackBeenUsed,
 				AssignTime,
-				FirstAcquireTime
+				StartAcquireTime,
+		        EndAcquireTime
 			)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
 		assignedOrder.AssignedOrderId,
+		assignedOrder.ExecutorRating,
 		assignedOrder.OrderId,
 		assignedOrder.ExecutorId,
 		assignedOrder.ExecutionStatus,
 		assignedOrder.CoinCoefficient,
 		assignedOrder.CoinBonusAmount,
 		assignedOrder.FinalCoinAmount,
-		assignedOrder.ZoneName,
+		assignedOrder.ZoneId,
 		assignedOrder.HasExecutorFallbackBeenUsed,
 		assignedOrder.AssignTime,
 		assignedOrder.FirstAcquireTime,
+		assignedOrder.CompletedTime,
 	)
+
 	if err != nil {
 		fmt.Println("db error:", err)
 		os.Exit(1)
 	}
+
 	return true, err
 }

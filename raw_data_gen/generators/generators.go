@@ -17,40 +17,55 @@ var coefsByWeekday = map[time.Weekday]float64{
 	time.Sunday:    0.8,
 }
 
+type Executor struct {
+	Id     string
+	Rating float32
+}
+
 var StartTimestamp time.Time = time.Date(2024, 2, 1, 0, 0, 0, 0, time.UTC)
 
 func NumberOfOrdersPerDay(day int) float64 {
-	if day < 0 || day > 300 {
+	if day < 0 {
 		panic("Wrong day passed to numberOfOrdersPerDay")
 	}
+
 	var baseValue float64 = 0
-	if day <= 30 {
-		baseValue = float64(3 * day)
-	} else if day <= 167 {
-		baseValue = (math.Sqrt(float64(-4*day*day+1040*day-27199)) + 160) / 2
+	baseDay := day % 300
+	if baseDay%300 <= 30 {
+		baseValue = float64(3*baseDay) + float64(rand.Int()%10)
+	} else if day%300 <= 167 {
+		baseValue = (math.Sqrt(float64(-4*baseDay*baseDay+1040*baseDay-27199)) + 160) / 2
 	} else {
-		baseValue = math.Sqrt(float64(day-166)) + 173
+		baseValue = math.Sqrt(float64(baseDay-166)) + 173
 	}
+
 	ts := StartTimestamp.Add(time.Duration(24*day) * time.Hour)
 	unexpectedCoeff := 1.0
-	if day*241%40 == 26 {
+
+	if baseDay*241%40 == 26 {
 		unexpectedCoeff = 0.2
 	}
+
 	return baseValue * coefsByWeekday[ts.Weekday()] * unexpectedCoeff
 }
 
-func GenerateExecutors(day, ordersNumber int) []string {
+func GenerateExecutors(day, ordersNumber int) []Executor {
 	rand.Seed(int64(day))
 	randomCoeff := 0.9 + rand.Float64()*0.2
 	baseAmount := float64(ordersNumber/2) * randomCoeff
+
 	if day*239%40 == 26 {
 		baseAmount *= 2
 	}
+
 	intBaseAmount := int(baseAmount)
-	executors := make([]string, intBaseAmount)
+	executors := make([]Executor, intBaseAmount)
+
 	for i := 0; i < intBaseAmount; i++ {
-		executors[i] = strconv.Itoa(i)
+		executors[i].Id = strconv.Itoa(i)
+		executors[i].Rating = rand.Float32()*(5.0-4.0) + 4.0
 	}
+
 	return executors
 }
 
@@ -66,9 +81,26 @@ func GetRandomStatus(day int) string {
 	status := "completed"
 	rnd := rand.Float64()
 	if rnd < notFinishedRate {
-		// 	status = "acquired"
-		// } else if rnd < cancelRate {
 		status = "cancelled"
 	}
 	return status
+}
+
+func GetRandomAmount(day int) (int32, int32) {
+	if rand.Int()%10 == 0 {
+		return rand.Int31n(1500-189) + 189, rand.Int31n(500-200) + 200
+	}
+	return rand.Int31n(1500-189) + 189, 0
+}
+
+func GetRandomZoneId(day int) string {
+	return strconv.Itoa(rand.Int() % 132)
+}
+
+func GetRandomFallback(day int) bool {
+	return rand.Int()%100 == 0
+}
+
+func GetRandomCompletedTime(start time.Time, amount int32) time.Time {
+	return start.Add(time.Duration(amount/3)*time.Minute + time.Duration(rand.Int()%10))
 }
