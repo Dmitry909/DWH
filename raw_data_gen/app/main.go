@@ -7,6 +7,7 @@ import (
 
 	"bytes"
 	"fmt"
+	"log"
 	"math/rand"
 	"os"
 	"strconv"
@@ -29,16 +30,20 @@ func addOrder(row model.AssignedOrder) {
 func main() {
 	pflag.Parse()
 
-	//err := database.EstablishConnection()
-	//if err != nil {
-	//	log.Printf("Error connecting to database: %s; retrying...\n", err.Error())
-	//	return
-	//}
+	err := database.EstablishConnection()
+	if err != nil {
+		log.Printf("Error connecting to database: %s; retrying...\n", err.Error())
+		return
+	}
 
 	assignOrderId := 0
 
 	buff := &bytes.Buffer{}
 	enc := struct2csv.NewWriter(buff)
+	err = enc.WriteColNames(model.DWHOrder{})
+	if err != nil {
+		panic(err)
+	}
 
 	for day := 1; day <= *daysCount; day++ {
 		ordersNumber := int(generators.NumberOfOrdersPerDay(day))
@@ -108,5 +113,4 @@ func main() {
 		defer fo.Close()
 		fo.Write(buff.Bytes())
 	}
-	//fmt.Printf("%s\n", s)
 }
