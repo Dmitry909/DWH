@@ -24,7 +24,6 @@ CREATE TABLE orders (
     zone_id BIGINT NOT NULL REFERENCES zones(zone_id),
     assign_time TIMESTAMP WITH TIME ZONE NOT NULL,
     first_acquire_time TIMESTAMP WITH TIME ZONE,
-    cancel_time TIMESTAMP WITH TIME ZONE,
     executor_rating FLOAT NOT NULL,
     completed_time TIMESTAMP WITH TIME ZONE,
 

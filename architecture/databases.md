@@ -17,7 +17,6 @@
 - `first_acquire_time` -- таймстемп назначения заказа исполнителю.
 - `executor_rating` -- рейтинг исполнителя в момент назначения ему заказа.
 - `completed_time` -- таймстемп завершения заказа.
-- `cancel_time` -- таймстемп завершения заказа.
 
 #### DDS
 
@@ -47,7 +46,6 @@
 - `first_acquire_time`
 - `executor_rating`
 - `completed_time`
-- `cancel_time`
 Отличия от `assigned_orders` из слоя ODS: убраны `assigned_order_id`, `has_executor_fallback_been_used`.
 
 #### marts
