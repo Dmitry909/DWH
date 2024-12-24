@@ -87,11 +87,11 @@ func main() {
 					OrderId:         orderId,
 					ExecutorId:      executorsThisDay[executorNow].Id,
 					ExecutorRating:  executorsThisDay[executorNow].Rating,
-					ExecutionStatus: status,
+					ExecutionStatus: "'" + status + "'",
 					CoinBonusAmount: bonusAmount,
 					FinalCoinAmount: baseAmount + bonusAmount,
 					ZoneId:          zoneId,
-					AssignTime:      assignTime.String(),
+					AssignTime:      "'" + assignTime.String() + "'",
 				})
 				if err != nil {
 					panic(err)
