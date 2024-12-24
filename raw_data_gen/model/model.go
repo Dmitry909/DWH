@@ -19,13 +19,13 @@ type AssignedOrder struct {
 }
 
 type DWHOrder struct {
-	AssignTime      time.Time `json:"assign_time"`
-	FinalCoinAmount int32     `json:"final_coin_amount"`
-	ExecutionStatus string    `json:"execution_status"`
-	AcquireSeconds  int32     `json:"acquire_seconds"`
-	ExecutorRating  float32   `json:"executor_rating"`
-	OrderId         string    `json:"order_id"`
-	ExecutorId      string    `json:"executor_id"`
-	ZoneId          string    `json:"zone_id"`
-	CoinBonusAmount int32     `json:"coin_bonus_amount"`
+	AssignTime      string  `json:"assign_time"`
+	FinalCoinAmount int32   `json:"final_coin_amount"`
+	ExecutionStatus string  `json:"execution_status"`
+	AcquireSeconds  int32   `json:"acquire_seconds"`
+	ExecutorRating  float32 `json:"executor_rating"`
+	OrderId         string  `json:"order_id"`
+	ExecutorId      string  `json:"executor_id"`
+	ZoneId          string  `json:"zone_id"`
+	CoinBonusAmount int32   `json:"coin_bonus_amount"`
 }
